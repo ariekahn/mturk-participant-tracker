@@ -408,3 +408,110 @@ $ curl -X GET http://localhost:8000/api/workers
 ```
 
 We now have an API for both adding individual workers as well as fetching all of them.
+
+# Views
+
+## Static files
+
+We want to create a simple page to show our workers.
+
+First, let's create a directory to serve public content from.
+
+We'll also set express to use the `pug` template engine.
+
+```js
+// Parse incoming json data
+app.use(express.json());
+// Parse URL parameters into the body
+app.use(express.urlencoded({ extended: false }));
+
+// Use pug for templates
+app.set('view engine', 'pug')
+// Create a route for serving static files
+app.use(express.static('public'))
+```
+
+Let's download jquery, and place it into `public/javascripts`:
+
+- https://jquery.com/download/
+
+```bash
+public
+└── javascripts
+    └── jquery-3.3.1.min.js
+```
+
+We can also add d3: https://d3js.org
+
+```bash
+public
+└── javascripts
+    ├── d3.min.js
+    └── jquery-3.3.1.min.js
+```
+
+## Worker view
+
+We can now add a template that will show all our participants.
+
+```console
+$ mkdir -p views
+```
+
+We're going to make a really basic view for now.
+
+We also have a sort hacky form to add new participants into the table.
+
+`views/workers.pug`
+```js
+//- index.pug
+doctype html
+html
+  body
+    form(method='POST', action='/api/workers')
+      div.form-group
+        label(for='workerid') Worker ID:
+        input(type='text', placeholder='worker id', name='workerid')
+      div.form-group
+        label(for='hitid') HIT ID:
+        input(type='text', placeholder='hit id', name='hitid')
+      div.form-group
+        label(for='status') Status:
+        input(type='text', placeholder='status', name='status')
+      button(type='submit') Add Worker
+    div(id="div1")
+    table
+      thead
+        tr: th Workers
+      tbody
+        each worker in workers
+          tr
+            td=worker.workerid
+            td=worker.hitid
+            td=worker.status
+```
+
+Create a new handler in `workers.js`:
+```js
+viewList(req, res) {
+    return Worker
+        .all()
+        .then(workers => {
+            res.render('workers', { workers });
+        })
+        .catch(error => res.status(200).send(error));
+}
+  ```
+
+Finally, add a route in `db/routes/index.js` to our view:
+```js
+module.exports = (app) => {
+  app.get('/api', (req, res) => res.status(200).send({
+    message: 'Worker API.',
+  }));
+
+  app.post('/api/workers', workersController.create);
+  app.get('/api/workers', workersController.list);
+  app.get('/workers', workersController.viewList)
+}
+```
