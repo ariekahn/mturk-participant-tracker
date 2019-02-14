@@ -7,3 +7,5 @@ date: February 13, 2019
 
 # Purpose
 Maintain a shared database of Mechanical Turk participants to exclude
+
+See [tutorial](tutorial.md)
