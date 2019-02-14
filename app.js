@@ -12,6 +12,7 @@ app.use(express.json());
 // Parse URL parameters into the body
 app.use(express.urlencoded({ extended: false }));
 
+require('./db/routes')(app)
 // Default route for everything
 app.get('*', (req, res) => res.status(200).send({
     message: 'Participant database.',
