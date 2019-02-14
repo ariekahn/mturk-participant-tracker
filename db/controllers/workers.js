@@ -17,4 +17,12 @@ module.exports = {
         .then(workers => res.status(200).send(workers))
         .catch(error => res.status(200).send(error));
     },
+    viewList(req, res) {
+        return Worker
+            .all()
+            .then(workers => {
+                res.render('workers', { workers });
+            })
+            .catch(error => res.status(200).send(error));
+    }
 };

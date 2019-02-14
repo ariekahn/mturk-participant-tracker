@@ -1,0 +1,25 @@
+//- index.pug
+doctype html
+html
+  body
+    form(method='POST', action='/api/workers')
+      div.form-group
+        label(for='workerid') Worker ID:
+        input(type='text', placeholder='worker id', name='workerid')
+      div.form-group
+        label(for='hitid') HIT ID:
+        input(type='text', placeholder='hit id', name='hitid')
+      div.form-group
+        label(for='status') Status:
+        input(type='text', placeholder='status', name='status')
+      button(type='submit') Add Worker
+    div(id="div1")
+    table
+      thead
+        tr: th Workers
+      tbody
+        each worker in workers
+          tr
+            td=worker.workerid
+            td=worker.hitid
+            td=worker.status

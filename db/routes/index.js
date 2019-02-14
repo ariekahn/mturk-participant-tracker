@@ -7,4 +7,5 @@ module.exports = (app) => {
 
   app.post('/api/workers', workersController.create);
   app.get('/api/workers', workersController.list);
+  app.get('/workers', workersController.viewList)
 }
