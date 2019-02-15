@@ -1,8 +1,12 @@
 //- index.pug
 doctype html
 html
+  head
+    script(src='/javascripts/jquery-3.3.1.min.js')
+    style
+      include style.css
   body
-    form(method='POST', action='/api/workers')
+    form(method='POST', action='/api/workers', id='addworker')
       div.form-group
         label(for='workerid') Worker ID:
         input(type='text', placeholder='worker id', name='workerid')
@@ -12,12 +16,32 @@ html
       div.form-group
         label(for='status') Status:
         input(type='text', placeholder='status', name='status')
-      button(type='submit') Add Worker
+      div.form-button
+        button(type='submit') Add Worker
+    script.
+      $("#addworker").submit(function(event){
+        event.preventDefault(); //prevent default action
+        var post_url = $(this).attr("action"); //get form action url
+        var request_method = $(this).attr("method"); //get form GET/POST method
+        var form_data = $(this).serialize(); //Encode form elements for submission
+
+        $.ajax({
+          url : post_url,
+          type: request_method,
+          data : form_data
+        }).done(function(response){ //
+          location.reload();
+        });
+      });
     div(id="div1")
     table
       thead
         tr: th Workers
       tbody
+        tr
+          td="Worker ID"
+          td="HIT ID"
+          td="Status"
         each worker in workers
           tr
             td=worker.workerid
