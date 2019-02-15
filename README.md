@@ -1,5 +1,5 @@
 ---
-title: Shape Recall Study
+title: Mechanical Turk Participant Database
 author: Ari Kahn
 email: arikahn@seas.upenn.edu
 date: February 13, 2019
