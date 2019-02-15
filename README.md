@@ -17,3 +17,8 @@ See [tutorial](tutorial.md)
 3) Add subjects by uploading a csv
 4) Download whole set of subjects or CSV
 5) Separate out experiments in the database
+
+# Useful links
+
+- https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose
+- https://scotch.io/tutorials/getting-started-with-node-express-and-postgres-using-sequelize
